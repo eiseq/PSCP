@@ -1,15 +1,18 @@
-var http = require('http');
-var fs = require('fs');
+const http = require('http');
+const fs = require('fs');
 
-http.createServer(function (request, response) {
-    if (request.url === "/html")
-    {
-        let html = fs.readFileSync('./index.html');
-        response.writeHead(200, {'Content-Type': 'text/html; charset = utf-8'});
-        response.end(html);
-    }
-    
+const host = 'localhost';
+const port = 5000;
+const url = '/html';
 
-}).listen(5000);
+const server = http.createServer((req, res) => {
+  if (req.url === url) {
+    const html = fs.readFileSync('./index.html');
+    res.writeHead(200, { 'Content-Type': 'text/html; charset = utf-8' });
+    res.end(html);
+  }
+});
 
-console.log('Server running at http://localhost:5000/html');
+server.listen(port, host, () => {
+  console.log(`Server running at http://${host}:${port}/${url}`);
+});
